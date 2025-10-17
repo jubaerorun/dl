@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Design Lounge - Advanced Creative Dashboard">
+    <title>Design Lounge - Professional Design Hub</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- FullCalendar -->
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css' rel='stylesheet' />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+</head>
+
+<body>
+    <!-- ==================== SCROLLING ANNOUNCEMENT BAR ==================== -->
+    <div id="announcementBar" class="announcement-bar" style="display: none;">
+        <div class="announcement-content">
+            <span class="announcement-icon">📢</span>
+            <div class="announcement-text" id="announcementText">
+                <!-- Dynamic announcements will appear here -->
+            </div>
+        </div>
+        <button class="announcement-close" onclick="closeAnnouncement()">
+            <i data-lucide="x"></i>
+        </button>
+    </div>
+
+    <!-- ==================== LOGIN SCREEN ==================== -->
+    <div id="loginContainer" class="login-screen">
+        <div class="login-orbs">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+            <div class="orb orb-4"></div>
+        </div>
+
+        <div class="login-card glass-card">
+            <div class="login-header">
+                <div class="logo-icon gradient-text">🎨</div>
+                <h1 class="gradient-text">Design Lounge</h1>
+                <p class="subtitle">Advanced Creative Hub & Collaboration Platform</p>
+            </div>
+
+            <form id="loginForm" class="auth-form">
+                <div class="input-group">
+                    <i data-lucide="mail"></i>
+                    <input type="email" id="loginEmail" placeholder="Email Address" required autocomplete="email">
+                </div>
+
+                <div class="input-group">
+                    <i data-lucide="lock"></i>
+                    <input type="password" id="loginPassword" placeholder="Password" required
+                        autocomplete="current-password">
+                </div>
+
+                <button type="submit" class="btn btn-gradient btn-large">
+                    <span>Sign In</span>
+                    <i data-lucide="arrow-right"></i>
+                </button>
+            </form>
+
+            <div class="divider">
+                <span>OR</span>
+            </div>
+
+            <button id="googleLoginBtn" class="btn btn-white btn-large">
+                <svg width="20" height="20" viewBox="0 0 20 20">
+                    <path fill="#4285F4"
+                        d="M18.17 8.89H10V11.5h4.72c-.45 2.34-2.5 3.61-4.72 3.61a5 5 0 1 1 3.61-8.5l1.93-1.93A8 8 0 1 0 10 18c4.42 0 8-3.18 8-7.11 0-.53-.06-1.06-.17-1.58z" />
+                    <path fill="#34A853" d="M3 10a7 7 0 0 0 11.9 5.03l-1.93-1.93A5 5 0 0 1 5 10z" />
+                    <path fill="#FBBC05"
+                        d="M10 3c1.32 0 2.55.48 3.5 1.27l2.63-2.63A8 8 0 0 0 3 10h2a6 6 0 0 1 5-4.9z" />
+                    <path fill="#EA4335" d="M10 3v2a6 6 0 0 1 5 4.9h2A8 8 0 0 0 10 3z" />
+                </svg>
+                <span>Continue with Google</span>
+            </button>
+
+            <div class="login-footer">
+                <i data-lucide="shield-check"></i>
+                <span>Secure access for professional designers</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== DASHBOARD SCREEN ==================== -->
+    <div id="dashboardContainer" class="dashboard-wrapper" style="display: none;">
+
+        <!-- Top Navigation -->
+        <header class="top-navbar glass-card">
+            <div class="nav-left">
+                <button id="menuToggle" class="btn-icon menu-toggle">
+                    <i data-lucide="menu"></i>
+                </button>
+
+                <div class="brand">
+                    <span class="brand-icon">🎨</span>
+                    <div class="brand-text">
+                        <h1 class="gradient-text">Design Lounge</h1>
+                        <p class="brand-tagline">Creative Hub</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-center">
+                <div class="search-box">
+                    <i data-lucide="search"></i>
+                    <input type="search" id="globalSearch" placeholder="Search projects, contests, resources...">
+                    <kbd class="kbd">Ctrl+K</kbd>
+                </div>
+            </div>
+
+            <div class="nav-right">
+                <button class="btn-icon notification-btn" id="notificationBtn">
+                    <i data-lucide="bell"></i>
+                    <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+                </button>
+
+                <div class="user-menu" id="userMenu">
+                    <div class="user-avatar" id="userAvatar">👨‍💼</div>
+                    <div class="user-info" id="userInfo">
+                        <span class="user-name">Loading...</span>
+                        <span class="user-role">...</span>
+                    </div>
+                    <button class="btn-icon" id="logoutBtn" title="Logout">
+                        <i data-lucide="log-out"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-body">
+
+            <!-- Sidebar -->
+            <aside class="sidebar glass-card" id="sidebar">
+                <nav class="sidebar-nav" id="sidebarNav">
+                    <!-- Navigation dynamically inserted -->
+                </nav>
+
+                <div class="sidebar-footer">
+                    <div class="team-section">
+                        <h4 class="section-title">
+                            <i data-lucide="users"></i>
+                            <span>Team Members</span>
+                        </h4>
+                        <div class="team-list" id="teamList">
+                            <!-- Team members dynamically inserted -->
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content" id="mainContent">
+                <div class="loading-screen">
+                    <div class="spinner"></div>
+                    <p class="gradient-text">Loading Dashboard...</p>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL CONTAINER ==================== -->
+    <div id="modalContainer"></div>
+
+    <!-- ==================== TOAST CONTAINER ==================== -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- ==================== FIREBASE SDK ==================== -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+
+    <!-- FullCalendar -->
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+
+    <!-- Application Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/calendar.js"></script>
+    <script src="js/timeline.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

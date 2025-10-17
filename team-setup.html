@@ -1,0 +1,106 @@
+rules_version = '2';
+service cloud.firestore {
+match /databases/{database}/documents {
+// Helper function to check if user is team member
+function isTeamMember() {
+return request.auth != null &&
+request.auth.token.email in [
+'orunjubaer@gmail.com',
+'shanazpar.keya@gmail.com',
+'mdfaysalshadhin7323@gmail.com'
+];
+}
+
+// Helper function to check if user can edit
+function canEdit() {
+return isTeamMember() &&
+(request.auth.token.email == 'orunjubaer@gmail.com' ||
+request.auth.token.email == 'shanazpar.keya@gmail.com' ||
+request.auth.token.email == 'mdfaysalshadhin7323@gmail.com');
+}
+
+// Projects collection
+match /projects/{projectId} {
+allow read: if isTeamMember();
+allow create: if canEdit();
+allow update: if canEdit();
+allow delete: if canEdit() &&
+(request.auth.token.email == 'orunjubaer@gmail.com' ||
+resource.data.createdBy == request.auth.token.email);
+}
+
+// Contests collection
+match /contests/{contestId} {
+allow read: if isTeamMember();
+allow create: if canEdit();
+allow update: if canEdit();
+allow delete: if canEdit() &&
+(request.auth.token.email == 'orunjubaer@gmail.com' ||
+resource.data.createdBy == request.auth.token.email);
+}
+
+// Meetings collection
+match /meetings/{meetingId} {
+allow read: if isTeamMember();
+allow create: if canEdit();
+allow update: if canEdit();
+allow delete: if canEdit() &&
+(request.auth.token.email == 'orunjubaer@gmail.com' ||
+resource.data.organizedBy == request.auth.token.email);
+}
+
+// Resources collection
+match /resources/{resourceId} {
+allow read: if isTeamMember();
+allow create: if canEdit();
+allow update: if canEdit();
+allow delete: if canEdit() &&
+(request.auth.token.email == 'orunjubaer@gmail.com' ||
+resource.data.createdBy == request.auth.token.email);
+}
+
+// Profiles collection
+match /profiles/{profileId} {
+allow read: if isTeamMember();
+allow create: if isTeamMember();
+allow update: if isTeamMember() &&
+(request.auth.token.email == 'orunjubaer@gmail.com' ||
+resource.data.email == request.auth.token.email);
+allow delete: if request.auth.token.email == 'orunjubaer@gmail.com';
+}
+
+// Chat channels and messages
+match /chatChannels/{channelId} {
+allow read: if isTeamMember();
+allow create: if canEdit();
+allow update: if canEdit();
+allow delete: if request.auth.token.email == 'orunjubaer@gmail.com';
+}
+
+match /chatMessages/{messageId} {
+allow read: if isTeamMember();
+allow create: if isTeamMember();
+allow update: if resource.data.senderId == request.auth.token.email;
+allow delete: if request.auth.token.email == 'orunjubaer@gmail.com' ||
+resource.data.senderId == request.auth.token.email;
+}
+
+// Calendar events
+match /calendarEvents/{eventId} {
+allow read: if isTeamMember();
+allow create: if canEdit();
+allow update: if canEdit();
+allow delete: if canEdit() &&
+(request.auth.token.email == 'orunjubaer@gmail.com' ||
+resource.data.createdBy == request.auth.token.email);
+}
+
+// Timeline entries
+match /timeline/{timelineId} {
+allow read: if isTeamMember();
+allow create: if canEdit();
+allow update: if request.auth.token.email == 'orunjubaer@gmail.com';
+allow delete: if request.auth.token.email == 'orunjubaer@gmail.com';
+}
+}
+}
